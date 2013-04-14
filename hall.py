@@ -9,8 +9,8 @@ hall = 3
 passes = []
 distance = 0
 rotation_distance = hamster_wheel_diameter * math.pi / 100
-# rotation_distance = pimpampet_diameter * math.pi / 100
-
+# rotation_distance = pimpampet_diam    eter * math.pi / 100
+run_timeout = 10
 rotation = 0
 
 
@@ -25,13 +25,12 @@ def rotations_per_second(start, end):
     return len(p)
 
 
-def track():
-    t = time.time()
+def track(t):
     passes.append(t)
     rotation = len(passes)
     et = t - passes[0]
-    if rotation == 1:
-        print 'Perry rent!'
+    # if rotation == 1:
+    #     print 'Perry rent!'
     try:
         dt = passes[-1] - passes[-2]
         speed = rotation_distance / dt * 3.6
@@ -47,15 +46,25 @@ setup_pins()
 
 start_time = 0
 previous = 1
+is_running = False
+last_time = time.time()
 
 print '1 omwenteling is %2f meter' % rotation_distance
-# var = 1
+
 while 1 == 1:
     current = GPIO.input(hall)
-    # time.sleep(.1)
+    if is_running and (time.time() - last_time > run_timeout):
+        is_running = False
+        print 'Perry is gestopt'
     if current and current != previous:
-        track()
-    #     print '---------'
-    # else:
-    #     print '-'
+        last_time = time.time()
+        if not is_running:
+            is_running = True
+            print 'Perry rent!'
+        track(last_time)
+
     previous = current
+
+
+
+
