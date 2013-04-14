@@ -3,7 +3,7 @@ import time
 import math
 
 pimpampet_diameter = 8
-hamster_wheel_diameter = 8
+hamster_wheel_diameter = 13
 
 hall = 3
 passes = []
